@@ -1,7 +1,7 @@
 const refs = {
     btnStart: document.querySelector('button[data-start]'),
     btnStop: document.querySelector('button[data-stop]'),
-    body: document.querySelector('body'),
+    bodyEl: document.querySelector('body'),
 };
 
 let timerId = null;
@@ -15,7 +15,7 @@ refs.btnStop.addEventListener('click', onStopChanging);
 function onChangeColor() {
     timerId = setInterval(() => {
         currentColor = getRandomHexColor();
-        refs.body.style.backgroundColor = currentColor;
+        refs.bodyEl.style.backgroundColor = currentColor;
         refs.btnStart.setAttribute('disabled', 'disabled');
         refs.btnStop.removeAttribute('disabled');
     }, 1000);
