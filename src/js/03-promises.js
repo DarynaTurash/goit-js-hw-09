@@ -16,27 +16,26 @@ refs.form.addEventListener('submit', event => {
   } else if (+refs.amountInput.value === 0) {
     Notify.warning("Please enter a value greater than 0 in the amount field");
   } else {
-    const delay = parseInt(refs.delayInput.value);
-    const step = parseInt(refs.stepInput.value);
-    const amount = parseInt(refs.amountInput.value); 
+    let delay = parseInt(refs.delayInput.value);
+    let step = parseInt(refs.stepInput.value);
+    let amount = parseInt(refs.amountInput.value);
+    
+    for (let i = 1; i <= amount; i++) {
+      if(i === 1) {
+        createPromise(i, delay).then(({ position, delay }) => {
+          Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        }).catch(({ position, delay }) => {
+          Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        });
+      } else {
+        createPromise(i, delay + step * (i - 1)).then(({ position, delay }) => {
+          Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        }).catch(({ position, delay }) => {
+          Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        });
+      };
+    };
   };
-
-
-for (let i = 1; i <= amount; i++) {
-  if(i === 1) {
-    createPromise(i, delay).then(({ position, delay }) => {
-      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-    }).catch(({ position, delay }) => {
-      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-    });
-  } else {
-    createPromise(i, delay + step * (i - 1)).then(({ position, delay }) => {
-      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-    }).catch(({ position, delay }) => {
-      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-    });
-  }
-};
 });
 
 function createPromise(position, delay) {
